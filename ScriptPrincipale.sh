@@ -13,11 +13,6 @@ php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Insta
 sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 composer
 
-echo "The installation of git"
-sudo apt update
-sudo apt install git
-git --version
-
 echo "The installation of Symfony"
 wget https://get.symfony.com/cli/installer -O - | bash
 symfony check:requirements
