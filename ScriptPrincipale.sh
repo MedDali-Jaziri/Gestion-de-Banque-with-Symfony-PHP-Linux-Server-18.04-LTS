@@ -22,6 +22,8 @@ echo "The installation of Symfony"
 wget https://get.symfony.com/cli/installer -O - | bash
 symfony check:requirements
 
+composer require knplabs/knp-paginator-bundle
+
 echo "Creation of database"
 php bin/console doctrine:database:create
 php bin/console doctrine:schema:update --force
