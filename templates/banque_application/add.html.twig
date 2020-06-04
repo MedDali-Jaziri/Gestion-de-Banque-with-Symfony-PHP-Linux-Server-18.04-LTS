@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Bootstrap Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    {{ form_start(form) }}
+	<header>
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="{{path('comptes')}}">Banque2020V°4</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="{{path('comptes')}}">Home</a></li>
+					<li class="active"><a href="{{path('AddComptePage')}}">ADD Compte</a></li>
+					<li><a href="{{path('ListeComptesPage')}}">Client</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="{{path('logout')}}">Logout</a></li>
+
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<section layout:fragment="content">
+		<div layout:fragment="content">
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Nouveau compte</div>
+					<div class="panel-body">
+						<form th:action="" method="post">
+
+							<div class="form-group">
+                                <label class="control-label">{{form_label(form.codeCompte)}}</label> 
+								<input
+									class="form-control" placeholder="Mettre le code Compte ici ..." {{form_widget(form.codeCompte)}}
+							</div>
+
+							<div class="form-group">
+								<label class="control-label">Mail:</label> <input
+									class="form-control" type="text" name="form[email]"
+									placeholder="Mettre l'Email Ici..." value="{{ form.email is defined ? form.email : '' }}"  />
+							</div>
+
+							<div class="form-group">
+								<label class="control-label">Le {{form_label(form.client)}}</label> 
+								<SELECT class="form-control" {{form_widget(form.client)}}
+							</div>
+
+							<div class="form-group">
+                                <label class="control-label">Le {{form_label(form.solde)}}</label>
+                                 <input
+								 	placeholder="Mettre le solde ici ..." class="form-control" {{form_widget(form.solde)}}
+							</div>
+
+							<div class="form-group">
+								<label class="control-label">Le type de Compte:</label>
+								<div class="form-group">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="radio" name="form[typeCompte]" value="1" /><label>Compte
+										Courant</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="form[typeCompte]" value="2" /><label>Compte
+										Epargne</label>
+								</div>
+							</div>
+									<center><button type="submit" class="btn btn-primary">Save</button></center>
+
+
+
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+	<footer>
+		<div class="navbar-fixed-bottom">
+			<small>@CopyRight2020 By Mohamed Ali Jaziri && Aziz Meksi</small>
+		</div>
+	</footer>
+    {{ form_end(form) }}
+
+</body>
+</html>

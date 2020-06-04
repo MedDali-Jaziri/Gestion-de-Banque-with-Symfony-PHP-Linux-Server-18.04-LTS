@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Bootstrap Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="{{path('comptes')}}">Banque2020V°4</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="{{path('comptes')}}">Home</a></li>
+					<li><a href="{{path('AddComptePage')}}">ADD Compte</a></li>
+					<li class="active"><a href="{{path('ListeComptesPage')}}">Client</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="{{path('logout')}}">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	<section layout:fragment="content">
+		<div layout:fragment="content">
+			<div class="col-md-8">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Liste des compte</div>
+					<div class="panel-body">
+						<form th:action="@{/ConsulterAllComptes}" method="get">
+							<table class="table table-striped">
+								<tr>
+									<th>Code Client</th>
+									<th>Notre Client</th>
+									<th>Email</th>
+									<th>Code Compte</th>
+								</tr>
+								{% for c in client %}
+								<tr>
+									<td>{{c.code}}</td>
+									<td>{{c.nom()}}</td>
+									<td>{{c.email()}}</td>
+									<td>{{c.compte}}</td>
+								</tr>
+								{% endfor %}
+							</table>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	<footer>
+		<div class="navbar-fixed-bottom">
+			<small>@CopyRight2020 By Mohamed Ali Jaziri && Aziz Meksi</small>
+		</div>
+	</footer>
+</body>
+</html>

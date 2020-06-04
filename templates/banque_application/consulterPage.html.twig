@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Bootstrap Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	
+	<header>
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="{{path('comptes')}}">Banque2020V°4</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="{{path('comptes')}}">Home</a></li>
+					<li><a href="{{path('AddComptePage')}}">ADD Compte</a></li>
+					<li><a href="{{path('ListeComptesPage')}}">Client</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="{{path('logout')}}">Logout</a></li>
+
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<section layout:fragment="content">
+		<div layout:fragment="content">
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Consultation d'un compte</div>
+					<div class="panel-body">
+						<form action="{{path('comptes')}}" method="post">
+							<div>
+								<label>Code de Compte:</label> 
+								<input type="text"
+									name="form[codeCompte]" placeholder="Mettre le code Ici..."
+									value="{{ form.codeCompte is defined ? form.codeCompte : '' }}" />
+								<button type="submit" class="btn btn-primary">Ok</button>
+							</div>
+						</form>
+						<div class="text-danger" th:if="${exception}"
+						th:text="${exception.message}"></div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer>
+		<div class="navbar-fixed-bottom">
+			<small>@CopyRight2020 By Mohamed Ali Jaziri && Aziz Meksi</small>
+		</div>
+	</footer>
+</body>
+</html>

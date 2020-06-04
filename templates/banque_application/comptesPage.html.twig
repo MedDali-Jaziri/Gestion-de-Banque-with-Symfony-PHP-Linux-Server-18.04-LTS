@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Bootstrap Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	
+	<header>
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="{{path('comptes')}}">Banque2020V°4</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="{{path('comptes')}}">Home</a></li>
+					<li><a href="{{path('AddComptePage')}}">ADD Compte</a></li>
+					<li><a href="{{path('ListeComptesPage')}}">Client</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="{{path('logout')}}">Logout</a></li>
+
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<section layout:fragment="content">
+		<div layout:fragment="content">
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Consultation d'un compte</div>
+					<div class="panel-body">
+						<form action="{{path('comptes')}}" method="post">
+							<div>
+								<label>Code de Compte:</label> 
+								<input type="text"
+									name="form[codeCompte]" placeholder="Mettre le code Ici..."
+									value="{{ form.codeCompte is defined ? form.codeCompte : '' }}" />
+								<button type="submit" class="btn btn-primary">Ok</button>
+							</div>
+						</form>
+						<div class="text-danger" th:if="${exception}"
+						th:text="${exception.message}"></div>
+					</div>
+				</div>
+
+				<div class="panel panel-primary" {% if comptes %}>
+					<div class="panel-heading">Information sur le compte</div>
+					<div class="panel-body">
+						<div>
+							<label>Client de compte:</label>
+							<label>{{comptes.client.nom}}</label>
+						</div>
+						<br>
+						<div>
+							<label>Ce Email:</label> <label>{{comptes.client.email}}</label>
+						</div>
+						<br>
+						<div>
+						
+							<label>Code de Compte:</label> 
+							<label>{{codeCompte}}</label>
+						</div>
+						<br>
+						<div>
+							<label>Solde de compte:</label> 
+							<label>{{ comptes.getSolde()}}</label>
+						</div>
+						<br>
+						<div>
+							<label>Date de Création:</label> 
+							<label>{{comptes.getDateCreation()|date("Y/m/d")}}</label>
+						</div>
+						<br>
+						<div>
+							<label>Type de compte:</label> <label
+								th:text="${compte.class.simpleName}">{{ typeCompte }}</label>
+						</div>
+						<br>
+						<div th:if="${compte.class.simpleName=='CompteCourant'}">
+							<label>Découvert: </label> <label> {% if typeCompte == "CompteCourant" %} {{decouvert}} {% else %} 0 {% endif %}</label>
+						</div>
+						<br>
+						<div th:if="${compte.class.simpleName=='CompteEpargne'}">
+							<label>Taux: </label> <label> {% if typeCompte == "CompteEpargne" %} {{decouvert}} {% else %} 0 {% endif %}</label>
+						</div>
+						<br>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div sec:authorize="hasRole('ROLE_ADMIN')">
+					<div class="panel panel-primary" th:if="${compte}">
+						<div class="panel-heading">Opération sur le compte</div>
+						<div class="panel-body">
+							<form action="{{path('OperationPage')}}" method="post">
+								<div>
+									<label>Compte </label> <input type="hidden" name="form[CodeC]"
+										value={{codeCompte}}> <label
+										th:text="${codeCompte}"></label>
+									<div>
+										<input type="radio" name="form[typeOperation]" value="VERS"
+											checked="checked"
+											onchange="document.getElementById('forvirement').style.display='none'" />
+
+										<label>Versement</label> <input type="radio"
+											name="form[typeOperation]" value="RETR"
+											onchange="document.getElementById('forvirement').style.display='none'" />
+
+										<label>Retrait</label> <input type="radio"
+											name="form[typeOperation]" value="VIR"
+											onchange="document.getElementById('forvirement').style.display='block'" />
+
+										<label>Virement</label>
+									</div>
+									<div id="forvirement" style="display: none">
+										<label>Vers:</label> <input type="text" name="form[codeCompte2]" placeholder="Le compte de virer Ici..."
+										value="{{ form.codeCompte2 is defined ? form.codeCompte2 : '' }}"" />
+									</div>
+									<div>
+										<label>Montant:</label> <input type="text" name="form[montant]" placeholder="Mettre le montant Ici..."
+										value="{{ form.montant is defined ? form.montant : '' }}" />
+									</div>
+									<div class="text-danger" ></div>
+									<div>
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-primary" th:if="${compte}">
+					<div class="panel-heading">Liste des opérations</div>
+					<div class="panel-body">
+						<table class="table table-striped">
+							<tr>
+								<th>Numero</th>
+								<th>Type</th>
+								<th>Date Opération</th>
+								<th>Montant</th>
+							</tr>
+							{% for appointment in appointments %}
+							<tr th:each="o:${operation}">
+								<td th:text="${o.numero}">{{ appointment.getNumero() }}</td>
+								<td th:text="${o.class.simpleName}">{{ typeCompte }}</td>
+								<td th:text="${o.dateOperation}">{{ appointment.getDateOperation()|date('d/m/yy') }}</td>
+								<td th:text="${o.montant}">{{ appointment.getMontant() }}</td>
+							</tr>
+							{% endfor %}
+						</table>
+						<div class="container">
+								<a>{{ knp_pagination_render(appointments) }}</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer>
+		<div class="navbar-fixed-bottom">
+			<small>@CopyRight2020 By Mohamed Ali Jaziri && Aziz Meksi</small>
+		</div>
+	</footer>
+</body>
+</html>

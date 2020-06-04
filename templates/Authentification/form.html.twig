@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{ form_start(form) }}
+   <center>
+        <br>
+        <label>Create Account</label><br><br>
+        {{ form_row(form.username) }}<br>
+        {{ form_row(form.plainPassword.first) }}<br>
+        {{ form_row(form.plainPassword.second) }}<br>
+
+        <button type="submit">Register</button>
+        <a href="{{path('login')}}">Login</a>
+    </center>
+{{ form_end(form) }}
+
+{% endblock  %}
