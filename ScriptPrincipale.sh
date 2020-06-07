@@ -15,6 +15,7 @@ composer
 
 echo "The installation of Symfony"
 wget https://get.symfony.com/cli/installer -O - | bash
+sudo mv /home/useradm/.symfony/bin/symfony /usr/local/bin/symfony
 symfony check:requirements
 
 composer require knplabs/knp-paginator-bundle
